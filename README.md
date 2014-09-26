@@ -1,3 +1,4 @@
+<h1>Note: This project is a work in progress.</h1>
 <h2>About</h2>
 The aim of this project is to have a trading platform for cryptocurrencies which has support for many of the popular exchanges and is (almost) fully automatic. Both simple and advanced trading strategies are used. 
 <p><a href="http://nodejs.org/">Node.js</a> is used for the backend including serving the content to the frontend via HTTP. All data such as market volume and price history are stored in a <a href="http://www.postgresql.org/">PostgreSQL</a> database. The frontend will provide statistical information and the ability to modify the trade parameters. All services are hosted locally on the same machine.
