@@ -26,6 +26,7 @@ Note: Not all features are fully implemented.
 <li><a href="http://nodejs.org/">Node.js</a></li>
 <li>The following node packages: <a href="https://www.npmjs.org/package/nonce">nonce</a>, <a href="https://www.npmjs.org/package/pg">pg</a>, <a href="https://www.npmjs.org/package/request">request</a> </li>
 <li>The 'keys' file will need to be populated with API keys and database credentials</li>
+<li>Libraries for bter, vircurex and some cryptsy API functions were used and are found in the lib folder. Some libraries may have small changes from the originals</li>
 </ul>
 
 <h2>Notes</h2>
