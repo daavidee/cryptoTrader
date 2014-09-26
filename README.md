@@ -4,7 +4,7 @@ The aim of this project is to have a trading platform for cryptocurrencies which
 <p><a href="http://nodejs.org/">Node.js</a> is used for the backend including serving the content to the frontend via HTTP. All data such as market volume and price history are stored in a <a href="http://www.postgresql.org/">PostgreSQL</a> database. The frontend will provide statistical information and the ability to modify the trade parameters. All services are hosted locally on the same machine.
 
 <h2>What are Cryptocurrencies?</h2>
-Cryptocurrencies are digital currencies which use cryptography for the creation and secure exchange of coins. They have no intrinsic value and the price is determined purely from market forces (speculation, value of the network and protocol, etc.). As a result, they are extremely volatile. <a href="https://bitcoin.org">Bitcoin</a> is the most popular cryptocurrency as of this writing and is currently valued at $600 USD per coin.
+Cryptocurrencies are digital currencies which use cryptography for the creation and secure exchange of coins. They have no intrinsic value and the price is determined purely from market forces (speculation, value of the network and protocol, etc.). As a result, they are extremely volatile. <a href="https://bitcoin.org">Bitcoin</a> is the most popular cryptocurrency as of this writing and is currently valued at $500 USD per coin.
 
 <h2 id="What_is_node"><div class="anchor">What is Node?</div></h2>
 Node is a platform built on Chrome's JavaScript engine which brings JavaScript to the server side. It uses an event-driven, asynchronous model which is perfect for network and I/O intensive applications.
