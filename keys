@@ -1,0 +1,18 @@
+{
+    "cryptsy": {
+        "pubKey": "",
+		"privKey": ""
+    },
+	"vircurex": {
+		"user": "",
+		"privKey": ""
+    },
+	"bter": {
+		"pubKey": "",
+		"privKey": ""
+    },
+	"postgres": {
+		"user": "",
+		"password": ""
+	}
+}

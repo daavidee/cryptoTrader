@@ -1,0 +1,12 @@
+{
+	"marketLabels" : {
+		"DOGE/BTC": {
+			"cryptsy": 132,
+			"vircurex":{
+				"currency1": "DOGE",
+				"currency2": "BTC"
+			},
+			"bter": "doge_btc"
+		}
+	}
+}

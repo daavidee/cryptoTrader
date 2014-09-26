@@ -1,0 +1,18 @@
+table {
+	border-collapse: collapse;
+}
+table td, table th {
+	padding: 7px; 
+	border: 1px solid white;
+	text-align:center;
+	vertical-align:middle;
+}
+table th {
+    background: rgb(165,165,165);
+}
+table tr:nth-child(odd) {
+    background-color: lightgrey;
+}
+table tr:hover {
+	background-color: #99CCFF;
+}

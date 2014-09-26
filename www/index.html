@@ -1,0 +1,137 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="main.css">
+<script type="text/javascript">
+function init() {
+	checkForOpportunity()
+	setInterval(checkForOpportunity, 1000);
+}
+</script>
+</head>
+<body onload="init()">
+<audio id = "makeMoney">
+<source src="makeMoney.mp3" type="audio/mp3" />
+</audio>
+
+alerts stopped: 
+<input  id="alertState" type="button" value="false" onclick="toggleAlertState()" />
+<br>
+
+<font size="20" color="black" id = "currentTime"></font>
+<br>
+
+<font size="30" color="red" id = "spreadValue">0%</font>
+<div id="spreadData"><h2></h2></div>
+<br>
+<input  id="getSpreadTable" type="button" value="get 48hr spread table" onclick="getSpreadTable()" />
+<br>
+<input  id="getCADBalance" type="button" value="get CAD equivalent balance" onclick="getCADBalance()" />
+<br>
+<div id="balanceData"><h2></h2></div>
+
+<script type="text/javascript">
+
+var alreadyAlerted = false
+
+function toggleAlertState () {
+	if (alreadyAlerted == false) alreadyAlerted = true
+	else alreadyAlerted = false
+	document.getElementById("alertState").value=alreadyAlerted
+}
+function checkForOpportunity() {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			var res = JSON.parse(xmlhttp.responseText)
+			document.getElementById("spreadData").innerHTML=xmlhttp.responseText
+			document.getElementById("spreadValue").innerHTML=res.spread + "%"
+			document.getElementById("currentTime").innerHTML=new Date()
+			if (res.spread > 2 && alreadyAlerted == false) {
+				toggleAlertState()
+				document.getElementById('makeMoney').play()
+				alert("TIME TO MAKE MONEY")
+				document.getElementById('makeMoney').stop()
+			}
+		}
+	}
+	xmlhttp.open("GET","currentOpportunity",true);
+	xmlhttp.send();
+}
+
+function getSpreadTable() {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			var res = JSON.parse(xmlhttp.responseText)
+			makeSpreadTable(res.rows)
+		}
+	}
+	xmlhttp.open("GET","getTickerHistory",true);
+	xmlhttp.send();
+}
+function makeSpreadTable(data) {
+	//make headers
+	var table = document.createElement('table');
+	var th = document.createElement('th'); th.appendChild(document.createTextNode('Time')); th.rowSpan = 3; table.appendChild(th);	
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Market')); th.rowSpan = 3; table.appendChild(th);	
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Buy Orders')); th.colSpan = 2; table.appendChild(th);
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Sell Orders)')); th.colSpan = 2; table.appendChild(th);
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Best Spread %')); th.rowSpan = 3; table.appendChild(th);
+		
+	var tr = document.createElement('tr');  
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Cryptsy')); tr.appendChild(th);
+		//th = document.createElement('th'); th.appendChild(document.createTextNode('Vircurex')); tr.appendChild(th);
+		th = document.createElement('th'); th.appendChild(document.createTextNode('BTER')); tr.appendChild(th);
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Cryptsy')); tr.appendChild(th);
+		//th = document.createElement('th'); th.appendChild(document.createTextNode('Vircurex')); tr.appendChild(th);
+		th = document.createElement('th'); th.appendChild(document.createTextNode('BTER')); tr.appendChild(th);
+	table.appendChild(tr);
+	
+	var tr = document.createElement('tr');  
+		th = document.createElement('th'); th.appendChild(document.createTextNode('Price (Satoshis BTC)  /  Qty (000s DOGE)')); th.colSpan = 4; tr.appendChild(th);
+
+	table.appendChild(tr);
+	
+	table.appendChild(tr);
+	document.body.appendChild(table);
+	
+	
+	//make rows
+	for (var i = 0; i < data.length; i++) {
+		var dt = new Date(parseInt(data[i].time))
+		var tr = document.createElement('tr');   
+		var td = document.createElement('td'); td.appendChild(document.createTextNode(dt.toLocaleString())); tr.appendChild(td);
+			td = document.createElement('td'); td.appendChild(document.createTextNode(data[i].market)); tr.appendChild(td);
+			td = document.createElement('td'); td.appendChild(document.createTextNode( Math.floor(data[i].orders.cryptsy.buys.price[0] * 100000000) + "  /  " + Math.floor(data[i].orders.cryptsy.buys.quantity[0] / 1000) )); tr.appendChild(td);
+			//td = document.createElement('td'); td.appendChild(document.createTextNode( Math.floor(data[i].orders.vircurex.buys.price[0] * 100000000) + "  /  " + Math.floor(data[i].orders.vircurex.buys.quantity[0] / 1000) )); tr.appendChild(td);
+			td = document.createElement('td'); td.appendChild(document.createTextNode( Math.floor(data[i].orders.bter.buys.price[0] * 100000000) + "  /  " + Math.floor(data[i].orders.bter.buys.quantity[0] / 1000) )); tr.appendChild(td);
+			
+			td = document.createElement('td'); td.appendChild(document.createTextNode( Math.floor(data[i].orders.cryptsy.sells.price[0] * 100000000) + "  /  " + Math.floor(data[i].orders.cryptsy.sells.quantity[0] / 1000) )); tr.appendChild(td);
+			//td = document.createElement('td'); td.appendChild(document.createTextNode( Math.floor(data[i].orders.vircurex.sells.price[0] * 100000000) + "  /  " + Math.floor(data[i].orders.vircurex.sells.quantity[0] / 1000) )); tr.appendChild(td);
+			td = document.createElement('td'); td.appendChild(document.createTextNode( Math.floor(data[i].orders.bter.sells.price[0] * 100000000) + "  /  " + Math.floor(data[i].orders.bter.sells.quantity[0] / 1000) )); tr.appendChild(td);
+				
+		var spread = data[i].bestspread
+		var colour;
+		if (spread > 0) colour = "#D6EFD5"
+		else if (spread < 0) colour = "#EFD5D5"
+		else colour = ""
+		td = document.createElement('td'); td.appendChild(document.createTextNode(data[i].bestspread)); td.style.backgroundColor = colour; tr.appendChild(td);
+		table.appendChild(tr);
+	}
+}
+
+function getCADBalance() {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			document.getElementById("balanceData").innerHTML = xmlhttp.responseText
+		}
+	}
+	xmlhttp.open("GET","getBalances",true);
+	xmlhttp.send();
+}
+
+</script>
+
+</body>
+</html>
